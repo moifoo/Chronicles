@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHRONICLES — Interactive Story Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="loginScreen" class="screen active">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;width:100vw;gap:1rem;position:absolute;top:0;left:0;";>
+      <div class="menu-title" style="font-size:3rem;">CHRONICLES</div>
+      <div id="authForm" style="background:var(--surface2);border:1px solid var(--border);padding:2rem;border-radius:4px;width:320px;display:flex;flex-direction:column;gap:1rem;">
+        <div style="font-family:'Cinzel',serif;color:var(--gold);text-align:center;font-size:1.1rem;" id="authTitle">SIGN IN</div>
+        <input id="authUser" placeholder="Username" style="padding:0.75rem;background:var(--surface);border:1px solid var(--border-dim);color:var(--text);font-family:'Crimson Pro',serif;font-size:1rem;border-radius:3px;outline:none;">
+        <input id="authPass" type="password" placeholder="Password" style="padding:0.75rem;background:var(--surface);border:1px solid var(--border-dim);color:var(--text);font-family:'Crimson Pro',serif;font-size:1rem;border-radius:3px;outline:none;">
+        <div id="authError" style="color:#e24b4a;font-family:'JetBrains Mono',monospace;font-size:11px;min-height:1rem;"></div>
+        <button onclick="submitAuth()" class="puzzle-submit">ENTER</button>
+        <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);cursor:pointer;" onclick="toggleAuthMode()">No account? <span style="color:var(--gold);">CREATE ONE</span></div>
+      </div>
+    </div>
+  </div>
+
+<!-- ===== MAIN MENU ===== -->
+<div id="menuScreen" class="screen active">
+  <div class="menu-bg-grid"></div>
+
+  <div class="menu-logo">
+    <div class="menu-eyebrow">An Interactive Story Experience</div>
+    <div class="menu-title">CHRONICLES</div>
+    <div class="menu-subtitle">Every choice leaves a scar.</div>
+    <div id = "welcomeUser"></div>
+  </div>
+
+  <div class="menu-divider"></div>
+  
+  <div style="display:flex;gap:1rem;justify-content:center;margin-bottom:2rem;">
+    <button class="choice-btn" style="width:auto;min-width:120px;" onclick="openGallery()">[ GALLERY ]</button>
+    <button class="choice-btn" style="width:auto;min-width:120px;" onclick="openSettings()">[ SETTINGS ]</button>
+    <button class="choice-btn" onclick="Auth.logout()" title="Logout">⏻</button>
+  </div>
+
+  <div class="episode-grid">
+    <div class="episode-card ep1" onclick="startEpisode(1)">
+      <div class="episode-num">EPISODE 01</div>
+      <div class="episode-title">The Last Signal</div>
+      <div class="episode-desc">A distress beacon in deep space. The crew must decide who — or what — sent it.</div>
+      <div class="episode-tag">SCI-FI · MYSTERY</div>
+    </div>
+    <div class="episode-card ep2" onclick="startEpisode(2)">
+      <div class="episode-num">EPISODE 02</div>
+      <div class="episode-title">The Hollow Crown</div>
+      <div class="episode-desc">A kingdom fractures from within. You are the only one who knows the true heir.</div>
+      <div class="episode-tag">POLITICAL · BETRAYAL</div>
+    </div>
+    <div class="episode-card ep3" onclick="startEpisode(3)">
+      <div class="episode-num">EPISODE 03</div>
+      <div class="episode-title">Echoes Below</div>
+      <div class="episode-desc">The facility has gone dark. Something survived the experiment. Something learned.</div>
+      <div class="episode-tag">HORROR · SURVIVAL</div>
+    </div>
+    <div class="episode-card ep4" id="ep4Card">
+      <div class="episode-num">EPISODE 04</div>
+      <div class="episode-title">The Cartographer's Lie</div>
+      <div class="episode-desc">The map is not the territory. The map is a cage.</div>
+      <div class="episode-desc">Complete any 2 episodes to unlock.</div>
+      <div class="episode-tag">PHILOSOPHICAL · SURREAL</div>
+    </div>
+    <div class="episode-card ep5" id="ep5Card">
+      <div class="episode-num">EPISODE 05</div>
+      <div class="episode-title">Salt and Ruin</div>
+      <div class="episode-desc">Justice is a ghost town.</div>
+      <div class="episode-desc">Complete Episode 4 to unlock.</div>
+      <div class="episode-tag">WESTERN · MORAL PHILOSOPHY</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GAME SCREEN ===== -->
+<div id="gameScreen" class="screen">
+  <div id="scene"></div>
+  <div id="sceneOverlay"></div>
+  <div id="tint"></div>
+
+  <!-- Particles container -->
+  <div id="particlesLayer"></div>
+
+  <!-- Top bar -->
+  <div id="topBar">
+    <div>
+      <div class="episode-label" id="episodeLabel">Episode 01</div>
+      <div class="episode-title-bar" id="episodeTitleBar">The Last Signal</div>
+    </div>
+    <div class="top-controls">
+      <button class="icon-btn" onclick="openCodex()" title="Codex">📖</button>
+      <button class="icon-btn" onclick="toggleMusic()" title="Music" id="musicBtn">🔊</button>
+      <button class="icon-btn" onclick="backToMenu()" title="Menu">⬅</button>
+    </div>
+  </div>
+
+  <!-- Timer -->
+  <div id="timerContainer"><div id="timerBar"></div></div>
+
+  <!-- Stats -->
+  <div id="statsBar"></div>
+
+  <!-- Characters -->
+  <img id="charLeft" class="char">
+  <img id="charRight" class="char">
+
+  <!-- Story UI -->
+  <div id="storyBox">
+    <div id="speakerBlock">
+      <div class="portrait-circle" id="speakerPortrait">?</div>
+      <div>
+        <div class="speaker-name" id="speakerName"></div>
+        <div class="speaker-role" id="speakerRole"></div>
+      </div>
+    </div>
+    <div id="dialogueBox">
+      <div id="dialogueText"></div>
+    </div>
+    <div id="choicesPanel"></div>
+  </div>
+
+  <button id="skipBtn" onclick="skipTyping()">SKIP ▶</button>
+
+  <!-- Chapter title -->
+  <div id="chapterTitle">
+    <div class="chapter-num" id="chapterNum"></div>
+    <div class="chapter-divider"></div>
+    <div class="chapter-name" id="chapterName"></div>
+    <div class="chapter-desc" id="chapterDesc"></div>
+  </div>
+
+  <!-- Notification -->
+  <div id="notification"></div>
+
+  <!-- Puzzle Overlay -->
+  <div id="puzzleOverlay">
+    <div class="puzzle-box" id="puzzleBox"></div>
+  </div>
+
+  <!-- Codex Overlay -->
+  <div id="codexOverlay">
+    <div class="codex-header">
+      <div class="codex-title">CODEX</div>
+      <button class="icon-btn" onclick="closeCodex()">✕</button>
+    </div>
+    <div class="codex-tabs">
+      <div class="codex-tab active" onclick="codexTab('lore')">LORE</div>
+      <div class="codex-tab" onclick="codexTab('characters')">CHARACTERS</div>
+      <div class="codex-tab" onclick="codexTab('decisions')">DECISIONS</div>
+    </div>
+    <div class="codex-body">
+      <div class="codex-section active" id="codexLore"></div>
+      <div class="codex-section" id="codexCharacters"></div>
+      <div class="codex-section" id="codexDecisions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Overlay -->
+<div id="settingsOverlay" class="screen" style="background:rgba(0,0,0,0.9);z-index:9999;padding:4rem;display:none;">
+  <h2 style="color:var(--gold);font-family:'Cinzel',serif;text-align:center;">SETTINGS</h2>
+  <div style="max-width:400px;margin:2rem auto;display:flex;flex-direction:column;gap:1.5rem;color:var(--text);">
+    <label>Text Speed: <select id="set_textSpeed" onchange="Settings.save()"><option value="10">Fast</option><option value="22" selected>Normal</option><option value="40">Slow</option></select></label>
+    <label>Particles: <input type="checkbox" id="set_particles" checked onchange="Settings.save()"></label>
+    <label>Atmosphere FX: <input type="checkbox" id="set_atmosphere" checked onchange="Settings.save()"></label>
+    <label>Music Volume: <input type="range" id="set_musicVol" min="0" max="1" step="0.01" value="0.25" onchange="Settings.save()"></label>
+    <label>Ambient Volume: <input type="range" id="set_ambientVol" min="0" max="1" step="0.01" value="0.5" onchange="Settings.save()"></label>
+    <button class="choice-btn" style="max-width:150px;margin:1rem auto;display:block;" onclick="closeSettings()">CLOSE</button>
+  </div>
+</div>
+
+<!-- Gallery Overlay -->
+<div id="galleryOverlay" class="screen" style="background:rgba(0,0,0,0.9);z-index:9999;padding:4rem 4rem 6rem 4rem;overflow-y:auto;display:none;">
+  <h2 style="color:var(--gold);font-family:'Cinzel',serif;text-align:center;">GALLERY & ACHIEVEMENTS</h2>
+  <div id="galleryContent" style="max-width:800px;margin:2rem auto;color:var(--text);overflow-y:auto;max-height:70vh;"></div>  
+  <button class="choice-btn" style="max-width:200px;margin:2rem auto;display:block;" onclick="closeGallery()">CLOSE</button>
+</div>
+
+<audio id="bgm" loop></audio>
+
+<script defer src="game.js"></script>
+</body>
+</html>
