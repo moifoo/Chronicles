@@ -1,6 +1,4 @@
-// ═══════════════════════════════════════════════════════════
-// GAME STATE
-// ═══════════════════════════════════════════════════════════
+
 const state = {
   episode: null,
   node: 'start',
@@ -12,10 +10,6 @@ const state = {
   typing: false,
   currentTypingResolve: null
 };
-
-// ═══════════════════════════════════════════════════════════
-// SAVE SYSTEM & ACHIEVEMENTS
-// ═══════════════════════════════════════════════════════════
 
 const Auth = {
   KEY: 'chronicles_user',
@@ -244,9 +238,6 @@ function renderGallery() {
   `;
 }
 
-// ═══════════════════════════════════════════════════════════
-// BACKGROUNDS (using Unsplash stable IDs)
-// ═══════════════════════════════════════════════════════════
 const BG = {
   space_nebula: 'https://images.unsplash.com/photo-1462332420958-a05d1e002413?w=1920&q=80',
   space_corridor: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1920&q=80',
@@ -265,7 +256,6 @@ const BG = {
   gallows: 'https://images.unsplash.com/photo-1687054419514-744a33aab4b6?w=1920&q=80',
 };
 
-// Character portrait initials & colors
 const CHARS = {
   'Commander Vasquez': { init: 'CV', color: '#1a3a5c' },
   'Dr. Osei': { init: 'DO', color: '#0d4a3a' },
@@ -289,9 +279,6 @@ const CHARS = {
   'The Courthouse': { init: '🏛', color: '#1a1a1a' }
 };
 
-// ═══════════════════════════════════════════════════════════
-// EPISODE 1: THE LAST SIGNAL
-// ═══════════════════════════════════════════════════════════
 const ep1 = {
   meta: {
     num: 'EPISODE 01', title: 'The Last Signal',
@@ -496,9 +483,6 @@ const ep1 = {
   }
 };
 
-// ═══════════════════════════════════════════════════════════
-// EPISODE 2: THE HOLLOW CROWN
-// ═══════════════════════════════════════════════════════════
 const ep2 = {
   meta: {
     num: 'EPISODE 02', title: 'The Hollow Crown',
@@ -703,9 +687,6 @@ const ep2 = {
   }
 };
 
-// ═══════════════════════════════════════════════════════════
-// EPISODE 3: ECHOES BELOW
-// ═══════════════════════════════════════════════════════════
 const ep3 = {
   meta: {
     num: 'EPISODE 03', title: 'Echoes Below',
@@ -872,9 +853,6 @@ const ep3 = {
   }
 };
 
-// ═══════════════════════════════════════════════════════════
-// EPISODE MAP
-// ═══════════════════════════════════════════════════════════
 const ep4 = {
   meta: {
     num: 'EPISODE 04', title: 'The Cartographer\'s Lie',
@@ -1022,9 +1000,6 @@ const ep5 = {
 
 const EPISODES = { 1: ep1, 2: ep2, 3: ep3, 4: ep4, 5: ep5 };
 
-// ═══════════════════════════════════════════════════════════
-// PUZZLE DEFINITIONS
-// ═══════════════════════════════════════════════════════════
 const PUZZLES = {
   cipher: {
     title: '⚡ Encrypted Signal',
@@ -1064,9 +1039,6 @@ const PUZZLES = {
   }
 };
 
-// ═══════════════════════════════════════════════════════════
-// MUSIC URLS (royalty-free ambience)
-// ═══════════════════════════════════════════════════════════
 const MUSIC = {
   0: 'https://cdn.pixabay.com/download/audio/2026/04/17/audio_60b2281cd7.mp3',
   1: 'https://cdn.pixabay.com/download/audio/2025/05/28/audio_7dac2606df.mp3',
@@ -1076,9 +1048,6 @@ const MUSIC = {
   5: 'https://cdn.pixabay.com/download/audio/2023/11/08/audio_a682aa608a.mp3'
 };
 
-// ═══════════════════════════════════════════════════════════
-// UTILITY FUNCTIONS
-// ═══════════════════════════════════════════════════════════
 function nudgeStat(key, delta) {
   if (state.stats[key] !== undefined) {
     state.stats[key] = Math.max(0, Math.min(100, state.stats[key] + delta));
@@ -1118,9 +1087,6 @@ function recordDecision(text) {
   state.decisions.push({ text, ep: state.episode });
 }
 
-// ═══════════════════════════════════════════════════════════
-// SCREEN MANAGEMENT
-// ═══════════════════════════════════════════════════════════
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -1134,9 +1100,6 @@ function backToMenu() {
   initMenu(); // ← add this
 }
 
-// ═══════════════════════════════════════════════════════════
-// EPISODE START
-// ═══════════════════════════════════════════════════════════
 function startEpisode(num) {
   const ep = EPISODES[num];
   state.episode = num;
@@ -1172,9 +1135,6 @@ function startEpisode(num) {
   renderNode();
 }
 
-// ═══════════════════════════════════════════════════════════
-// PARTICLES
-// ═══════════════════════════════════════════════════════════
 function setupParticles(epNum) {
   clearParticles();
   const layer = document.getElementById('particlesLayer');
@@ -1213,9 +1173,6 @@ function clearParticles() {
   document.getElementById('particlesLayer').innerHTML = '';
 }
 
-// ═══════════════════════════════════════════════════════════
-// MUSIC
-// ═══════════════════════════════════════════════════════════
 function playMusic(num) {
   if (!state.musicOn) return;
   const bgm = document.getElementById('bgm');
@@ -1262,9 +1219,6 @@ const AudioEngine = {
   }
 };
 
-// ═══════════════════════════════════════════════════════════
-// CHAPTER TITLE CARD
-// ═══════════════════════════════════════════════════════════
 async function showChapterCard(chapter) {
   return new Promise(resolve => {
     const card = document.getElementById('chapterTitle');
@@ -1279,9 +1233,6 @@ async function showChapterCard(chapter) {
   });
 }
 
-// ═══════════════════════════════════════════════════════════
-// NODE RENDERER
-// ═══════════════════════════════════════════════════════════
 async function renderNode() {
   if (state.node === '__menu') { backToMenu(); return; }
   const ep = EPISODES[state.episode];
@@ -1297,7 +1248,6 @@ async function renderNode() {
   }
   document.getElementById('tint').style.background = node.tint || 'transparent';
 
-  // Characters & Emotion Tinting
   const speakerChar = CHARS[node.speaker];
   if (speakerChar && node.speaker !== 'Narrator') {
     setChar('charLeft', generatePortraitSVG(speakerChar.color));
@@ -1308,19 +1258,18 @@ async function renderNode() {
   setChar('charRight', node.right);
   
   const box = document.getElementById('dialogueBox');
-  if (node.emotion === 'anger') box.style.borderColor = '#8b1a1a'; // crimson
-  else if (node.emotion === 'fear') box.style.borderColor = '#1a3a5c'; // blue
-  else if (node.emotion === 'sorrow') box.style.borderColor = '#5a5248'; // muted
+  if (node.emotion === 'anger') box.style.borderColor = '#8b1a1a';
+  else if (node.emotion === 'fear') box.style.borderColor = '#1a3a5c'; 
+  else if (node.emotion === 'sorrow') box.style.borderColor = '#5a5248'; 
   else box.style.borderColor = 'var(--border-dim)';
 
   if (Settings.current.particles) setupParticles(state.episode);
 
-  // Speaker
+  
   renderSpeaker(node.speaker, node.role);
 
-  // Puzzle?
+  
   if (node.puzzle) {
-    // Show text first if present
     if (node.text) {
       await typeText(node.text);
       document.getElementById('choicesPanel').innerHTML = '';
@@ -1331,18 +1280,14 @@ async function renderNode() {
     return;
   }
 
-  // Hide choices before typing
   const panel = document.getElementById('choicesPanel');
   panel.innerHTML = '';
   panel.classList.remove('visible');
 
-  // Regular text
   await typeText(node.text || '', node.speaker);
 
-  // Choices
   renderChoices(node.choices);
 
-  // Preload next backgrounds
   if (node.choices) {
     node.choices.forEach(c => {
       const nextNode = EPISODES[state.episode][c.next];
@@ -1434,9 +1379,6 @@ function renderSpeaker(name, role) {
   }
 }
 
-// ═══════════════════════════════════════════════════════════
-// TEXT TYPING
-// ═══════════════════════════════════════════════════════════
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function typeText(text, speaker) {
@@ -1453,7 +1395,6 @@ async function typeText(text, speaker) {
   return new Promise(resolve => {
     state.currentTypingResolve = resolve;
     
-    // Process [PAUSE] tokens
     const textParts = text.split('[PAUSE]');
     let currentPartIdx = 0;
     
@@ -1516,9 +1457,6 @@ function skipTyping() {
   state.typing = false;
 }
 
-// ═══════════════════════════════════════════════════════════
-// CHOICES
-// ═══════════════════════════════════════════════════════════
 function renderChoices(choices) {
   const panel = document.getElementById('choicesPanel');
   panel.innerHTML = '';
@@ -1541,7 +1479,6 @@ function renderChoices(choices) {
 
   requestAnimationFrame(() => panel.classList.add('visible'));
 
-  // Keyboard shortcuts
   document.onkeydown = (e) => {
     const key = e.key.toUpperCase();
     const match = choices.find(c => (c.key || keys[choices.indexOf(c)]) === key);
@@ -1555,11 +1492,9 @@ function makeChoice(choice) {
   if (choice.text) recordDecision(`Episode ${state.episode}: "${choice.text}"`);
   document.getElementById('choicesPanel').classList.remove('visible');
 
-  // Auto-save on every choice
   SaveSystem.save(0);
   Achievements.unlock('first_choice');
-
-  // Achievement triggers based on destination node
+  
   if (choice.next === 'ep1_signal_decoded') Achievements.unlock('truth_seeker');
   if (choice.next === 'ep1_analyze') Achievements.unlock('signal');
   if (choice.next === 'ep3_new_being') Achievements.unlock('mercy');
@@ -1587,7 +1522,6 @@ function makeChoice(choice) {
       setTimeout(() => overlay.remove(), 1000);
     }, 800);
   } else {
-    // Flash transition
     const flash = document.createElement('div');
     flash.className = 'scene-flash';
     document.getElementById('gameScreen').appendChild(flash);
@@ -1598,9 +1532,6 @@ function makeChoice(choice) {
   }
 }
 
-// ═══════════════════════════════════════════════════════════
-// PUZZLES
-// ═══════════════════════════════════════════════════════════
 function openPuzzle(puzzleConfig) {
   const overlay = document.getElementById('puzzleOverlay');
   const box = document.getElementById('puzzleBox');
@@ -1655,7 +1586,6 @@ function renderCodePuzzle(box, config) {
     <div class="puzzle-error" id="puzzleError"></div>
   `;
 
-  // Auto-advance digit inputs
   for (let i = 0; i < 4; i++) {
     const input = document.getElementById('d' + i);
     input.addEventListener('input', () => {
@@ -1858,7 +1788,6 @@ function renderConstellationPuzzle(box, config) {
   function draw() {
     ctx.clearRect(0,0,300,200);
     
-    // Draw lines
     ctx.beginPath();
     ctx.strokeStyle = 'rgba(201,162,39,0.8)';
     ctx.lineWidth = 2;
@@ -1874,7 +1803,6 @@ function renderConstellationPuzzle(box, config) {
     }
     ctx.stroke();
 
-    // Draw stars
     stars.forEach(s => {
       ctx.beginPath();
       ctx.arc(s.x, s.y, 6, 0, Math.PI*2);
@@ -2025,14 +1953,10 @@ function renderTimelinePuzzle(box, config) {
   };
 }
 
-// ═══════════════════════════════════════════════════════════
-// CODEX
-// ═══════════════════════════════════════════════════════════
 function openCodex() {
   const ep = EPISODES[state.episode];
   if (!ep) return;
 
-  // Lore
   const loreEl = document.getElementById('codexLore');
   loreEl.innerHTML = state.loreUnlocked.map(l => `
     <div class="codex-entry">
@@ -2041,7 +1965,6 @@ function openCodex() {
     </div>
   `).join('');
 
-  // Characters
   const charEl = document.getElementById('codexCharacters');
   const charKeys = Object.entries(CHARS).filter(([k]) => {
     return Object.values(ep).some(n => n && n.speaker === k);
@@ -2056,7 +1979,6 @@ function openCodex() {
     </div>
   `).join('') || '<div class="codex-entry-text" style="color:var(--text-muted)">No characters unlocked yet.</div>';
 
-  // Decisions
   const decEl = document.getElementById('codexDecisions');
   const epDecisions = state.decisions.filter(d => d.ep === state.episode);
   decEl.innerHTML = epDecisions.length ? epDecisions.map(d => `
@@ -2085,12 +2007,10 @@ function codexTab(tab) {
   document.getElementById('codex' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
 }
 
-// Keyboard: ESC closes overlays
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeCodex();
     if (document.getElementById('puzzleOverlay').classList.contains('active')) {
-      // Don't allow closing puzzle without solving it
     }
   }
 });
@@ -2100,7 +2020,7 @@ window.onload = () => {
   initParallax();
   if (Auth.currentUser()) {
     showScreen('menuScreen');
-    setTimeout(() => {         // ← same defer here
+    setTimeout(() => {         
       initMenu();
       document.addEventListener('click', function startMenuMusic() {
         playMusic(0);
@@ -2165,7 +2085,6 @@ function initMenu() {
     }
   }
 
-  // EP5: requires episode 4 completed
   const ep5Card = document.getElementById('ep5Card');
   if (ep5Card) {
     const ep5Unlocked = completed.includes(4);
@@ -2201,7 +2120,7 @@ function submitAuth() {
   const result = authMode === 'login' ? Auth.login(user, pass) : Auth.register(user, pass);
   if (result.success) {
     showScreen('menuScreen');
-    setTimeout(() => {         // ← defer so the screen is fully visible first
+    setTimeout(() => {         
       initMenu();
       document.addEventListener('click', function startMenuMusic() {
         playMusic(0);
