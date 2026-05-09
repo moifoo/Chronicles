@@ -11,6 +11,11 @@ const state = {
   currentTypingResolve: null
 };
 
+function startMenuMusic() {
+  playMusic(0);
+  document.removeEventListener('click', startMenuMusic);
+}
+
 const Auth = {
   KEY: 'chronicles_user',
   
@@ -49,7 +54,7 @@ const Auth = {
 const grid = document.querySelector('.menu-bg-grid');
 
 document.addEventListener('mousemove', (e) => {
-  const x = (e.clientX / window.innerWidth  - 0.5) * 30; // ±15px
+  const x = (e.clientX / window.innerWidth  - 0.5) * 30; 
   const y = (e.clientY / window.innerHeight - 0.5) * 30;
 
   grid.style.backgroundPosition = `${x}px ${y}px`;
@@ -1097,10 +1102,13 @@ function backToMenu() {
   clearParticles();
   showScreen('menuScreen');
   playMusic(0);
-  initMenu(); // ← add this
+  initMenu(); 
 }
 
 function startEpisode(num) {
+  document.removeEventListener('click', startMenuMusic);
+  
+  stopMusic();
   const ep = EPISODES[num];
   state.episode = num;
   state.node = 'start';
@@ -1126,7 +1134,7 @@ function startEpisode(num) {
   document.getElementById('scene').style.backgroundImage = 'none';
   renderStats();
   setupParticles(num);
-  playMusic(num);
+  setTimeout(() => playMusic(num), 100);
   document.getElementById('choicesPanel').innerHTML = '';
   document.getElementById('choicesPanel').classList.remove('visible');
   document.getElementById('dialogueText').textContent = '';
@@ -1239,10 +1247,8 @@ async function renderNode() {
   const node = ep[state.node];
   if (!node) return;
 
-  // Chapter card
   if (node.chapter) await showChapterCard(node.chapter);
 
-  // Background & tint
   if (node.bg) {
     document.getElementById('scene').style.backgroundImage = `url('${node.bg}')`;
   }
@@ -1258,17 +1264,15 @@ async function renderNode() {
   setChar('charRight', node.right);
   
   const box = document.getElementById('dialogueBox');
-  if (node.emotion === 'anger') box.style.borderColor = '#8b1a1a';
-  else if (node.emotion === 'fear') box.style.borderColor = '#1a3a5c'; 
-  else if (node.emotion === 'sorrow') box.style.borderColor = '#5a5248'; 
+  if (node.emotion === 'anger') box.style.borderColor = '#8b1a1a'; // crimson
+  else if (node.emotion === 'fear') box.style.borderColor = '#1a3a5c'; // blue
+  else if (node.emotion === 'sorrow') box.style.borderColor = '#5a5248'; // muted
   else box.style.borderColor = 'var(--border-dim)';
 
   if (Settings.current.particles) setupParticles(state.episode);
 
-  
   renderSpeaker(node.speaker, node.role);
 
-  
   if (node.puzzle) {
     if (node.text) {
       await typeText(node.text);
@@ -1441,7 +1445,7 @@ async function typeText(text, speaker) {
           clearInterval(interval);
           currentPartIdx++;
           if (currentPartIdx < textParts.length && state.typing) {
-            setTimeout(typeNextPart, 800); // 800ms pause
+            setTimeout(typeNextPart, 800); 
           } else {
             typeNextPart();
           }
@@ -1494,7 +1498,7 @@ function makeChoice(choice) {
 
   SaveSystem.save(0);
   Achievements.unlock('first_choice');
-  
+
   if (choice.next === 'ep1_signal_decoded') Achievements.unlock('truth_seeker');
   if (choice.next === 'ep1_analyze') Achievements.unlock('signal');
   if (choice.next === 'ep3_new_being') Achievements.unlock('mercy');
@@ -1690,7 +1694,6 @@ function renderMemoryPuzzle(box, config) {
   const next = config.next;
   const symbols = ['⚔','👑','🔑','📜','💎','🗡','🏰','🌙'];
   const pairs = [...symbols, ...symbols];
-  // Shuffle
   for (let i = pairs.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
@@ -1856,7 +1859,6 @@ function renderConstellationPuzzle(box, config) {
           return;
         }
       } else {
-        // failed
         isDrawing = false;
         connected = [];
       }
@@ -1956,7 +1958,6 @@ function renderTimelinePuzzle(box, config) {
 function openCodex() {
   const ep = EPISODES[state.episode];
   if (!ep) return;
-
   const loreEl = document.getElementById('codexLore');
   loreEl.innerHTML = state.loreUnlocked.map(l => `
     <div class="codex-entry">
@@ -2022,10 +2023,7 @@ window.onload = () => {
     showScreen('menuScreen');
     setTimeout(() => {         
       initMenu();
-      document.addEventListener('click', function startMenuMusic() {
-        playMusic(0);
-        document.removeEventListener('click', startMenuMusic);
-      }, { once: true });
+      document.addEventListener('click', startMenuMusic, { once: true });
     }, 50);
   } else {
     showScreen('loginScreen');
@@ -2070,7 +2068,6 @@ function initMenu() {
 
   const completed = SaveSystem.getCompletedEpisodes();
 
-  // EP4: requires any 2 episodes completed
   const ep4Card = document.getElementById('ep4Card');
   if (ep4Card) {
     const ep4Unlocked = completed.length >= 2;
@@ -2105,8 +2102,8 @@ let authMode = 'login';
 function toggleAuthMode() {
   authMode = authMode === 'login' ? 'register' : 'login';
   document.getElementById('authTitle').textContent = authMode === 'login' ? 'SIGN IN' : 'CREATE ACCOUNT';
-  document.querySelector('[onclick="toggleAuthMode()"] span').textContent = 
-    authMode === 'login' ? 'CREATE ONE' : 'SIGN IN INSTEAD';
+  document.getElementById('authToggleText').textContent = authMode === 'login' ? 'No account?' : 'Have an account?';
+  document.getElementById('authToggleLink').textContent = authMode === 'login' ? 'CREATE ONE' : 'SIGN IN INSTEAD';
   document.getElementById('authError').textContent = '';
 }
 
@@ -2122,10 +2119,7 @@ function submitAuth() {
     showScreen('menuScreen');
     setTimeout(() => {         
       initMenu();
-      document.addEventListener('click', function startMenuMusic() {
-        playMusic(0);
-        document.removeEventListener('click', startMenuMusic);
-      }, { once: true });
+      document.addEventListener('click', startMenuMusic, { once: true });
     }, 50);
   } else {
     document.getElementById('authError').textContent = result.msg;
