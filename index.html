@@ -26,7 +26,7 @@
     </div>
   </div>
 
-<!-- ===== MAIN MENU ===== -->
+
 <div id="menuScreen" class="screen active">
   <div class="menu-bg-grid"></div>
 
@@ -81,16 +81,14 @@
   </div>
 </div>
 
-<!-- ===== GAME SCREEN ===== -->
+
 <div id="gameScreen" class="screen">
   <div id="scene"></div>
   <div id="sceneOverlay"></div>
   <div id="tint"></div>
 
-  <!-- Particles container -->
   <div id="particlesLayer"></div>
 
-  <!-- Top bar -->
   <div id="topBar">
     <div>
       <div class="episode-label" id="episodeLabel">Episode 01</div>
@@ -103,17 +101,13 @@
     </div>
   </div>
 
-  <!-- Timer -->
   <div id="timerContainer"><div id="timerBar"></div></div>
 
-  <!-- Stats -->
   <div id="statsBar"></div>
 
-  <!-- Characters -->
   <img id="charLeft" class="char">
   <img id="charRight" class="char">
 
-  <!-- Story UI -->
   <div id="storyBox">
     <div id="speakerBlock">
       <div class="portrait-circle" id="speakerPortrait">?</div>
@@ -130,7 +124,6 @@
 
   <button id="skipBtn" onclick="skipTyping()">SKIP ▶</button>
 
-  <!-- Chapter title -->
   <div id="chapterTitle">
     <div class="chapter-num" id="chapterNum"></div>
     <div class="chapter-divider"></div>
@@ -138,15 +131,12 @@
     <div class="chapter-desc" id="chapterDesc"></div>
   </div>
 
-  <!-- Notification -->
   <div id="notification"></div>
 
-  <!-- Puzzle Overlay -->
   <div id="puzzleOverlay">
     <div class="puzzle-box" id="puzzleBox"></div>
   </div>
 
-  <!-- Codex Overlay -->
   <div id="codexOverlay">
     <div class="codex-header">
       <div class="codex-title">CODEX</div>
@@ -165,7 +155,6 @@
   </div>
 </div>
 
-<!-- Settings Overlay -->
 <div id="settingsOverlay" class="screen" style="background:rgba(0,0,0,0.9);z-index:9999;padding:4rem;display:none;">
   <h2 style="color:var(--gold);font-family:'Cinzel',serif;text-align:center;">SETTINGS</h2>
   <div style="max-width:400px;margin:2rem auto;display:flex;flex-direction:column;gap:1.5rem;color:var(--text);">
@@ -178,7 +167,7 @@
   </div>
 </div>
 
-<!-- Gallery Overlay -->
+
 <div id="galleryOverlay" class="screen" style="background:rgba(0,0,0,0.9);z-index:9999;padding:4rem 4rem 6rem 4rem;overflow-y:auto;display:none;">
   <h2 style="color:var(--gold);font-family:'Cinzel',serif;text-align:center;">GALLERY & ACHIEVEMENTS</h2>
   <div id="galleryContent" style="max-width:800px;margin:2rem auto;color:var(--text);overflow-y:auto;max-height:70vh;"></div>  
