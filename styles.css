@@ -30,11 +30,9 @@ body {
   cursor: default;
 }
 
-/* ===== SCREENS ===== */
 .screen { position:absolute; inset:0; display:none; }
 .screen.active { display:flex; }
 
-/* ===== MAIN MENU ===== */
 #menuScreen {
   flex-direction: column;
   align-items: center;
@@ -51,7 +49,7 @@ body {
 }
 
 .menu-bg-grid {
-  position: fixed; /* ← changed from absolute */
+  position: fixed; 
   inset: 0;
   background-image:
     linear-gradient(rgba(201,162,39,0.03) 1px, transparent 1px),
@@ -60,8 +58,8 @@ body {
   animation: gridDrift 30s linear infinite;
   transition: background-position 0.1s ease-out;
   will-change: background-position;
-  z-index: 0; /* keep it behind content */
-  pointer-events: none; /* don't block clicks */
+  z-index: 0; 
+  pointer-events: none; 
 }
 
 @keyframes gridDrift {
@@ -109,7 +107,6 @@ body {
   text-shadow: 0 0 80px rgba(201,162,39,0.3);
   opacity: 0;
   animation: fadeUp 1s ease 0.5s forwards;
-    /* keep all existing properties, just add: */
   animation: fadeUp 1s ease 0.5s forwards, titlePulse 4s ease 2s infinite alternate;
 }
 
@@ -227,7 +224,6 @@ body {
 .episode-card.locked:hover { transform: none; border-color: var(--border-dim); }
 .lock-icon { position: absolute; top: 1rem; right: 1rem; font-size: 1.2rem; color: var(--text-muted); }
 
-/* ===== GAME SCREEN ===== */
 #gameScreen {
   position: absolute;
   inset: 0;
@@ -261,7 +257,6 @@ body {
   transition: background 2s ease;
 }
 
-/* CHARACTERS */
 .char {
   position: absolute;
   bottom: 0;
@@ -277,7 +272,6 @@ body {
 #charLeft { left: 0; transform-origin: bottom left; }
 #charRight { right: 0; transform-origin: bottom right; }
 
-/* TOP BAR */
 #topBar {
   position: absolute;
   top: 0;
@@ -324,7 +318,6 @@ body {
 }
 .icon-btn:hover { border-color: var(--border); color: var(--gold); background: rgba(201,162,39,0.05); }
 
-/* CODEX / INVENTORY HUD */
 #statsBar {
   position: absolute;
   top: 60px;
@@ -355,7 +348,6 @@ body {
 .stat-icon { font-size: 12px; }
 .stat-val { color: var(--gold); font-weight: 400; }
 
-/* STORY BOX */
 #storyBox {
   position: absolute;
   bottom: 0;
@@ -438,7 +430,6 @@ body {
 }
 @keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-/* CHOICES */
 #choicesPanel {
   display: flex;
   flex-direction: column;
@@ -507,7 +498,6 @@ body {
   letter-spacing: 0.1em;
 }
 
-/* PUZZLE OVERLAY */
 #puzzleOverlay {
   position: absolute;
   inset: 0;
@@ -596,7 +586,6 @@ body {
 
 .puzzle-error { color: #e24b4a; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; margin-top: 1rem; height: 1.2rem; }
 
-/* RIDDLE PUZZLE */
 .riddle-choices {
   display: flex;
   flex-direction: column;
@@ -620,7 +609,6 @@ body {
 .riddle-opt.correct { border-color: #22c55e; color: #22c55e; background: rgba(34,197,94,0.05); }
 .riddle-opt.wrong { border-color: #e24b4a; color: #e24b4a; background: rgba(226,75,74,0.05); }
 
-/* MEMORY PUZZLE */
 .memory-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -647,7 +635,6 @@ body {
 .mem-card.matched .mem-card-front { display: none; }
 .mem-card.matched .mem-card-back { display: block; }
 
-/* CIPHER PUZZLE */
 .cipher-display {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1.1rem;
@@ -677,7 +664,6 @@ body {
 }
 .cipher-input:focus { border-color: var(--gold); }
 
-/* CODEX OVERLAY */
 #codexOverlay {
   position: absolute;
   inset: 0;
@@ -752,7 +738,6 @@ body {
 }
 .decision-text { color: var(--text-dim); font-size: 0.9rem; line-height: 1.5; }
 
-/* NOTIFICATION */
 #notification {
   position: absolute;
   top: 70px;
@@ -774,7 +759,6 @@ body {
 }
 #notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* CHAPTER TITLE */
 #chapterTitle {
   position: absolute;
   inset: 0;
@@ -815,7 +799,6 @@ body {
   margin: 1.5rem auto;
 }
 
-/* SKIP BTN */
 #skipBtn {
   position: absolute;
   bottom: 1.5rem;
@@ -836,7 +819,6 @@ body {
 #skipBtn:hover { color: var(--gold); border-color: var(--border); }
 #skipBtn.show { display: block; }
 
-/* ANIMATIONS */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -846,7 +828,6 @@ body {
   to { opacity: 1; }
 }
 
-/* SCENE TRANSITIONS */
 .scene-flash {
   position: absolute;
   inset: 0;
@@ -861,7 +842,6 @@ body {
   100% { opacity: 0; }
 }
 
-/* PARTICLES */
 .particle {
   position: absolute;
   pointer-events: none;
@@ -876,12 +856,10 @@ body {
   to { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
 }
 
-/* SCROLL */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--void); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .episode-grid { grid-template-columns: 1fr; }
   .menu-title { font-size: 3rem; }
@@ -889,7 +867,6 @@ body {
   .char { height: 55vh; }
 }
 
-/* PORTRAIT DIVIDERS */
 .portrait-circle {
   width: 44px; height: 44px;
   border-radius: 50%;
@@ -902,7 +879,6 @@ body {
   flex-shrink: 0;
 }
 
-/* MORSE / PUZZLE TABLE */
 .morse-table {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -915,7 +891,7 @@ body {
 .morse-item { padding: 4px 6px; background: var(--surface); border-radius: 2px; text-align: center; }
 .morse-letter { color: var(--gold-dim); }
 
-/* TIMER BAR */
+
 #timerContainer {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -930,7 +906,6 @@ body {
   transition: width linear;
 }
 
-/* ACHIEVEMENTS */
 .achievement-banner {
   position: fixed;
   top: 1.5rem;
@@ -968,7 +943,6 @@ body {
   margin-top: 2px;
 }
 
-/* CINEMATIC TRANSITIONS */
 .transition-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
